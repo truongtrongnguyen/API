@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jwt_Login_API.Models
 {
@@ -13,5 +15,8 @@ namespace Jwt_Login_API.Models
         public bool IsReveoked { get; set; }
         public DateTime? AddDate { get; set; }
         public DateTime? ExpiryDate { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public IdentityUser? User { get; set; }
     }
 }

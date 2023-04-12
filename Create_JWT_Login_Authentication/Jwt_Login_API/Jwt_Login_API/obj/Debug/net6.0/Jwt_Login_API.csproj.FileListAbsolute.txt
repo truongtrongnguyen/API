@@ -68,3 +68,8 @@ D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\J
 D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\obj\Debug\net6.0\Jwt_Login_API.pdb
 D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\obj\Debug\net6.0\Jwt_Login_API.genruntimeconfig.cache
 D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\obj\Debug\net6.0\ref\Jwt_Login_API.dll
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\obj\Debug\net6.0\staticwebassets\msbuild.Jwt_Login_API.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\obj\Debug\net6.0\staticwebassets\msbuild.build.Jwt_Login_API.props
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Jwt_Login_API.props
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Jwt_Login_API.props
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\obj\Debug\net6.0\staticwebassets.pack.json

@@ -175,10 +175,11 @@ namespace Jwt_Login_API.Controllers
             {
                 _tokenValidationParameters.ValidateLifetime = false;    // for testing
 
+                // Validation 1 -  Validation JWT Token format
                 var tokeninVerifiecation = jwtTokenHandler.ValidateToken(tokenRequest.Token, _tokenValidationParameters,
                     out var validedToken);
 
-                // check validad token
+                // Validation 2 - Validation encryption alg
                 if(validedToken is JwtSecurityToken jwtSecurityToken)
                 {
                     var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
@@ -189,24 +190,24 @@ namespace Jwt_Login_API.Controllers
                     }
                 }
 
-                // check time token request sendto
+                // Validation 3 - Validation expiry date
                 var utcExpiryDate = long.Parse(tokeninVerifiecation.Claims
                             .FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
 
                 var expiryDate = UnixTimeStampToDateTime(utcExpiryDate);
-                if(expiryDate > DateTime.Now)
+                if(expiryDate > DateTime.UtcNow)
                 {
                     return new AuthResult()
                     {
                         Result = false,
                         Error = new List<string>()
                         {
-                            "Expired token"
+                            "token has not yet expiry"
                         }
                     };
                 }
 
-                // check token store database
+                // Validation 4 - Validation existence of the token
                 var storeToken = await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == tokenRequest.RefreshToken);
                 if(storeToken == null)
                 {
@@ -219,6 +220,8 @@ namespace Jwt_Login_API.Controllers
                         }
                     };
                 }
+
+                // Validation 5 - Validation if used
                 if(storeToken.IsUsed)
                 {
                     return new AuthResult()
@@ -230,6 +233,8 @@ namespace Jwt_Login_API.Controllers
                         }
                     };
                 }
+
+                // Validation 6 - Validation if Revoked
                 if (storeToken.IsReveoked)
                 {
                     return new AuthResult()
@@ -242,6 +247,7 @@ namespace Jwt_Login_API.Controllers
                     };
                 }
 
+                // Validation 7 - Validation the id
                 // check jti token is unique
                 var jti = tokeninVerifiecation.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
                 if(storeToken.JwtId != jti)
@@ -256,6 +262,7 @@ namespace Jwt_Login_API.Controllers
                     };
                 }
 
+                // Validation 8
                 // check time token in database
                 if(storeToken.ExpiryDate < DateTime.Now)
                 {
@@ -272,7 +279,7 @@ namespace Jwt_Login_API.Controllers
                 // after checking the token then proceed to update this token is already used
                 storeToken.IsUsed = true;
                 _context.RefreshTokens.Update(storeToken);
-                // await _context.SaveChangesAsync();
+                 await _context.SaveChangesAsync();
 
                 // generate new token
                 var _user = await _userManager.FindByIdAsync(storeToken.UserId);
@@ -318,7 +325,7 @@ namespace Jwt_Login_API.Controllers
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())
                 }),
-                Expires = DateTime.UtcNow.Add(_jwtConfig.ExpiryTimeFrame),
+                Expires = DateTime.UtcNow.Add(_jwtConfig.ExpiryTimeFrame),  // 5-10 phut
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(bytes), algorithm: SecurityAlgorithms.HmacSha256Signature)
             };
 
