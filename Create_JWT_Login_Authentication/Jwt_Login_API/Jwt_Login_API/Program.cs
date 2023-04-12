@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +20,29 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     var connect = builder.Configuration.GetConnectionString("AppDbContext");
     options.UseSqlServer(connect);
+
 });
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection(key: "JwtConfig"));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(option =>
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
 {
     option.SignIn.RequireConfirmedEmail = false;
-}).AddEntityFrameworkStores<AppDbContext>();
+}).AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+
+var bytes = Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:SecretKey"]);
+
+var tokenValidationParameter = new TokenValidationParameters()     // Validate form Token
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(bytes),
+    ValidateIssuer = false,  // for dev
+    ValidateAudience = false,    // for dev
+    RequireExpirationTime = true, // for dev --needs to updated when toke is added
+    ValidateLifetime = true,  // is a Value
+
+    ClockSkew = TimeSpan.Zero
+};
 
 builder.Services.AddAuthentication(options =>
 {
@@ -34,22 +51,12 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(jwt =>
 {
-    var bytes = Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:SecretKey"]);
-
     jwt.SaveToken = true;    // Save Token Header
 
-    jwt.TokenValidationParameters = new TokenValidationParameters()     // Validate form Token
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(bytes),
-        ValidateIssuer = false,  // for dev
-        ValidateAudience = false,    // for dev
-        RequireExpirationTime = true, // for dev --needs to updated when toke is added
-        ValidateLifetime = true,  // is a Value
-
-        ClockSkew = TimeSpan.Zero
-    };
+    jwt.TokenValidationParameters = tokenValidationParameter;
 });
+
+builder.Services.AddSingleton(tokenValidationParameter);
 
 var app = builder.Build();
 
