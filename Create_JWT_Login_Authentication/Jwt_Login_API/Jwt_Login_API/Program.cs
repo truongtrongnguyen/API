@@ -56,6 +56,12 @@ builder.Services.AddAuthentication(options =>
     jwt.TokenValidationParameters = tokenValidationParameter;
 });
 
+// add Policy
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("DepartmentPolicy", policy => policy.RequireClaim("Department"));
+});
+
 builder.Services.AddSingleton(tokenValidationParameter);
 
 var app = builder.Build();

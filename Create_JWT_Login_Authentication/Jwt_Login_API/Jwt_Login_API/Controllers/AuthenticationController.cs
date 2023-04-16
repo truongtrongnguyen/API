@@ -21,14 +21,16 @@ namespace Jwt_Login_API.Controllers
         private readonly JwtConfig _jwtConfig;
         private readonly AppDbContext _context;
         private readonly TokenValidationParameters _tokenValidationParameters;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AuthenticationController(UserManager<IdentityUser> userManager, IOptions<JwtConfig> jwtConfig,
-            AppDbContext context, TokenValidationParameters tokenValidationParameters)
+            AppDbContext context, TokenValidationParameters tokenValidationParameters, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _jwtConfig = jwtConfig.Value;
             _context = context;
             _tokenValidationParameters = tokenValidationParameters;
+            _roleManager = roleManager;
         }
 
         [HttpPost]
@@ -54,18 +56,21 @@ namespace Jwt_Login_API.Controllers
                 }
 
                 // Create new user
-                var new_user = new IdentityUser()
+                var newUser = new IdentityUser()
                 {
                     Email = requestDto.Email,
                     UserName = requestDto.Name
                 };
 
-                var is_created = await _userManager.CreateAsync(new_user, requestDto.Password);
+                var isCreated = await _userManager.CreateAsync(newUser, requestDto.Password);
 
-                if (is_created.Succeeded)
+                if (isCreated.Succeeded)
                 {
+                    // We need to add the user to a role
+                    await _userManager.AddToRoleAsync(newUser, "AppUser");
+
                     // generate a Token
-                    var token = await GenerateJwtToken(new_user);
+                    var token = await GenerateJwtToken(newUser);
                     return Ok(token);
                 }
 
@@ -314,18 +319,13 @@ namespace Jwt_Login_API.Controllers
 
             var bytes = Encoding.UTF8.GetBytes(_jwtConfig.SecretKey);
 
+            var claims = await GetAllValidClaims(user);
+
             // Token Descriptor
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim("type", user.Id),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())
-                }),
-                Expires = DateTime.UtcNow.Add(_jwtConfig.ExpiryTimeFrame),  // 5-10 phut
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.Add(_jwtConfig.ExpiryTimeFrame),  // 5-10 minute
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(bytes), algorithm: SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -351,6 +351,46 @@ namespace Jwt_Login_API.Controllers
                 RefreshToken = refreshToken.Token,
                 Token = jwtToken
             };
+        }
+
+        // Get all valid claim for the corresponding user
+        private async Task<List<Claim>> GetAllValidClaims(IdentityUser user)
+        {
+            var claims = new List<Claim>()
+            {
+                    new Claim("type", user.Id),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())
+            };
+
+            // getting the Claims that we have assigned to the user
+            IList<Claim> userClaims = await _userManager.GetClaimsAsync(user);
+
+            claims.AddRange(userClaims);
+
+            // Get the user Role and add it to the claims
+            IList<string> userRoles = await _userManager.GetRolesAsync(user);
+
+            foreach(var userRole in userRoles)  // for Roles
+            {
+                IdentityRole role = await _roleManager.FindByNameAsync(userRole);
+
+                if(role != null)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, userRole));
+
+                    // Get RoleClaims in Role
+                    IList<Claim> roleClaims = await _roleManager.GetClaimsAsync(role);
+
+                    foreach(var roleClaim in roleClaims)    // for RoleClaims
+                    {
+                        claims.Add(roleClaim);
+                    }
+                }
+            }
+            return claims;
         }
 
         private string RandomStringGeneration(int length)
