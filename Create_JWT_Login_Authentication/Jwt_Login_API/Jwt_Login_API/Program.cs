@@ -1,4 +1,5 @@
-﻿using JWT_Login_Authentication.Configurations;
+﻿
+using Jwt_Login_API.Services.EmailService;
 using JWT_Login_Authentication.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -15,41 +16,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add EmailService
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     var connect = builder.Configuration.GetConnectionString("AppDbContext");
     options.UseSqlServer(connect);
 });
-builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection(key: "JwtConfig"));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(option =>
 {
     option.SignIn.RequireConfirmedEmail = false;
 }).AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(jwt =>
-{
-    var bytes = Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:SecretKey"]);
-
-    jwt.SaveToken = true;    // Save Token Header
-
-    jwt.TokenValidationParameters = new TokenValidationParameters()     // Validate form Token
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(bytes),
-        ValidateIssuer = false,  // for dev
-        ValidateAudience = false,    // for dev
-        RequireExpirationTime = true, // for dev --needs to updated when toke is added
-        ValidateLifetime = true,  // is a Value
-
-        ClockSkew = TimeSpan.Zero
-    };
-});
 
 var app = builder.Build();
 

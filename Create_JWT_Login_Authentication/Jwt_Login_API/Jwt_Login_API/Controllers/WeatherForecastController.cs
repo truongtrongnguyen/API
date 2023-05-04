@@ -6,9 +6,7 @@ namespace Jwt_Login_API.Controllers
 {
     
     [ApiController]
-    [Route("[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class WeatherForecastController : ControllerBase
+    [Route("[controller]")]    public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {

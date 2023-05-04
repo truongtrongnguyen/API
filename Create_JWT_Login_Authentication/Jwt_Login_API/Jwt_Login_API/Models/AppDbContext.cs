@@ -1,4 +1,5 @@
 ﻿
+using Jwt_Login_API.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,5 +11,6 @@ namespace JWT_Login_Authentication.Models
         {
 
         }
+        public DbSet<Usersss> Userssss { get; set; }
     }
 }

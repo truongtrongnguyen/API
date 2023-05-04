@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Login_logout_Session2.props" />
+</Project>
