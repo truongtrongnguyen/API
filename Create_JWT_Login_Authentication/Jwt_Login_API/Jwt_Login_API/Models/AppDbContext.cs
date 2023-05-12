@@ -11,6 +11,6 @@ namespace JWT_Login_Authentication.Models
         {
 
         }
-        public DbSet<Usersss> Userssss { get; set; }
+        public DbSet<CategoryMediator> CategoryMediators { get; set; }
     }
 }

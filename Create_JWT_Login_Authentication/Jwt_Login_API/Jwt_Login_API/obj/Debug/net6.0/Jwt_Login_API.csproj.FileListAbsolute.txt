@@ -89,3 +89,8 @@ D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\J
 D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
 D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\bin\Debug\net6.0\MediatR.dll
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\bin\Debug\net6.0\FluentValidation.dll
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
+D:\Code_CShap\Use_Visual_studio\WebAPI_NetCore\Create_JWT_Login_Authentication\Jwt_Login_API\Jwt_Login_API\bin\Debug\net6.0\FluentValidation.AspNetCore.dll

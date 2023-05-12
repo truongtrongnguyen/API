@@ -9,7 +9,11 @@
       "Jwt_Login_API/1.0.0": {
         "dependencies": {
           "Dapper": "2.0.123",
+          "FluentValidation": "11.5.2",
+          "FluentValidation.AspNetCore": "11.3.0",
           "MailKit": "4.0.0",
+          "MediatR": "6.0.0",
+          "MediatR.Extensions.Microsoft.DependencyInjectionFixed": "5.1.2",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.3",
           "Microsoft.AspNetCore.Identity": "2.2.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.3",
@@ -41,6 +45,38 @@
           }
         }
       },
+      "FluentValidation/11.5.2": {
+        "runtime": {
+          "lib/net6.0/FluentValidation.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.5.2.0"
+          }
+        }
+      },
+      "FluentValidation.AspNetCore/11.3.0": {
+        "dependencies": {
+          "FluentValidation": "11.5.2",
+          "FluentValidation.DependencyInjectionExtensions": "11.5.1"
+        },
+        "runtime": {
+          "lib/net6.0/FluentValidation.AspNetCore.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.3.0.0"
+          }
+        }
+      },
+      "FluentValidation.DependencyInjectionExtensions/11.5.1": {
+        "dependencies": {
+          "FluentValidation": "11.5.2",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.5.1.0"
+          }
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "runtime": {
           "lib/netstandard2.0/Humanizer.dll": {
@@ -57,6 +93,26 @@
           "lib/net6.0/MailKit.dll": {
             "assemblyVersion": "4.0.0.0",
             "fileVersion": "4.0.0.0"
+          }
+        }
+      },
+      "MediatR/6.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/MediatR.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.0.0"
+          }
+        }
+      },
+      "MediatR.Extensions.Microsoft.DependencyInjectionFixed/5.1.2": {
+        "dependencies": {
+          "MediatR": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/MediatR.Extensions.Microsoft.DependencyInjection.dll": {
+            "assemblyVersion": "5.1.2.0",
+            "fileVersion": "5.1.2.0"
           }
         }
       },
@@ -899,6 +955,27 @@
       "path": "dapper/2.0.123",
       "hashPath": "dapper.2.0.123.nupkg.sha512"
     },
+    "FluentValidation/11.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kj/hW/iusp2zq1Vt1YPLgDj6UG0DhoJXGkLwjLwm3j7vUtRF8DVA5vHJfItG3BxDjLWJUR2pvw8fK7rnuysZNA==",
+      "path": "fluentvalidation/11.5.2",
+      "hashPath": "fluentvalidation.11.5.2.nupkg.sha512"
+    },
+    "FluentValidation.AspNetCore/11.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jtFVgKnDFySyBlPS8bZbTKEEwJZnn11rXXJ2SQnjDhZ56rQqybBg9Joq4crRLz3y0QR8WoOq4iE4piV81w/Djg==",
+      "path": "fluentvalidation.aspnetcore/11.3.0",
+      "hashPath": "fluentvalidation.aspnetcore.11.3.0.nupkg.sha512"
+    },
+    "FluentValidation.DependencyInjectionExtensions/11.5.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iWM0LS1MDYX06pcjMEQKqHirl2zkjHlNV23mEJSoR1IZI7KQmTa0RcTtGEJpj5+iHvBCfrzP2mYKM4FtRKVb+A==",
+      "path": "fluentvalidation.dependencyinjectionextensions/11.5.1",
+      "hashPath": "fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512"
+    },
     "Humanizer.Core/2.8.26": {
       "type": "package",
       "serviceable": true,
@@ -912,6 +989,20 @@
       "sha512": "sha512-vtP6nUU0ByEZTnpbtsfdxyRvcssNSgIml4zi2hpBOV4gYNoaYSt+4VCx28MMnfaO/9J1IzcG+Hc8kXMkWX6iRQ==",
       "path": "mailkit/4.0.0",
       "hashPath": "mailkit.4.0.0.nupkg.sha512"
+    },
+    "MediatR/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-R01T5Af1kSH9lBvlxdTeJOr+ugPwfy0FsFq15XsNAIA8GSUYwHW7lfvYGwhBynwJVXWxRwieqxOxCFEV9GO+SQ==",
+      "path": "mediatr/6.0.0",
+      "hashPath": "mediatr.6.0.0.nupkg.sha512"
+    },
+    "MediatR.Extensions.Microsoft.DependencyInjectionFixed/5.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-93OmjCwew097+bxLSA9xJavQ0AYhHDmZDeh2Q09rxCuTeO9SKc/gtQledr0s42vHfl5yFgTRaffyMYG+989c2w==",
+      "path": "mediatr.extensions.microsoft.dependencyinjectionfixed/5.1.2",
+      "hashPath": "mediatr.extensions.microsoft.dependencyinjectionfixed.5.1.2.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
       "type": "package",
