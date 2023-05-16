@@ -11,6 +11,11 @@ namespace JWT_Login_Authentication.Models
         {
 
         }
-        public DbSet<CategoryMediator> CategoryMediators { get; set; }
+
+        // Link Video: https://www.youtube.com/watch?v=V0UF4vEMlhQ 
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<Backpack> Backpacks { get; set; }
+        public DbSet<Weapon> Weapons { get; set; }
+        public DbSet<Faction> Factions { get; set; }
     }
 }

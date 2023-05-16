@@ -4,6 +4,7 @@ using JWT_Login_Authentication.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jwt_Login_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230516050421_CharacterBackpack")]
+    partial class CharacterBackpack
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace Jwt_Login_API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CharacterFaction", b =>
-                {
-                    b.Property<int>("CharactersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FactionsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CharactersId", "FactionsId");
-
-                    b.HasIndex("FactionsId");
-
-                    b.ToTable("CharacterFaction");
-                });
 
             modelBuilder.Entity("Jwt_Login_API.Models.Backpack", b =>
                 {
@@ -75,45 +62,6 @@ namespace Jwt_Login_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Characters");
-                });
-
-            modelBuilder.Entity("Jwt_Login_API.Models.Faction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Factions");
-                });
-
-            modelBuilder.Entity("Jwt_Login_API.Models.Weapon", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CharacterId");
-
-                    b.ToTable("Weapons");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -318,37 +266,11 @@ namespace Jwt_Login_API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CharacterFaction", b =>
-                {
-                    b.HasOne("Jwt_Login_API.Models.Character", null)
-                        .WithMany()
-                        .HasForeignKey("CharactersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Jwt_Login_API.Models.Faction", null)
-                        .WithMany()
-                        .HasForeignKey("FactionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Jwt_Login_API.Models.Backpack", b =>
                 {
                     b.HasOne("Jwt_Login_API.Models.Character", "Character")
                         .WithOne("Backpack")
                         .HasForeignKey("Jwt_Login_API.Models.Backpack", "CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Character");
-                });
-
-            modelBuilder.Entity("Jwt_Login_API.Models.Weapon", b =>
-                {
-                    b.HasOne("Jwt_Login_API.Models.Character", "Character")
-                        .WithMany("Weapons")
-                        .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -410,8 +332,6 @@ namespace Jwt_Login_API.Migrations
                 {
                     b.Navigation("Backpack")
                         .IsRequired();
-
-                    b.Navigation("Weapons");
                 });
 #pragma warning restore 612, 618
         }
